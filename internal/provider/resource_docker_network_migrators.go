@@ -109,6 +109,23 @@ func resourceDockerNetworkV0() *schema.Resource {
 			"scope": {
 				Type:     schema.TypeString,
 				Computed: true,
+				Optional: true,
+				ForceNew: true,
+			},
+
+			"config_only": {
+				Type:     schema.TypeBool,
+				Computed: false,
+				Default:  false,
+				Optional: true,
+				ForceNew: true,
+			},
+
+			"config_from": {
+				Type:     schema.TypeString,
+				Computed: false,
+				Optional: true,
+				ForceNew: true,
 			},
 		},
 	}

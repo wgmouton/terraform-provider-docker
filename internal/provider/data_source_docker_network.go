@@ -88,6 +88,21 @@ func dataSourceDockerNetwork() *schema.Resource {
 				Description: "Scope of the network. One of `swarm`, `global`, or `local`.",
 				Computed:    true,
 			},
+
+			"config_only": {
+				Type:        schema.TypeBool,
+				Description: "Mark this network as a config network",
+				Computed:    false,
+				Default:     false,
+				Optional:    true,
+			},
+
+			"config_from": {
+				Type:        schema.TypeString,
+				Description: "Base this network off a config network",
+				Computed:    false,
+				Optional:    true,
+			},
 		},
 	}
 }
@@ -115,6 +130,8 @@ func dataSourceDockerNetworkRead(ctx context.Context, d *schema.ResourceData, me
 	d.Set("driver", network.Driver)
 	d.Set("options", network.Options)
 	d.Set("internal", network.Internal)
+	d.Set("config_only", network.ConfigOnly)
+	d.Set("config_from", network.ConfigFrom)
 	if err = d.Set("ipam_config", flattenIpamConfig(network.IPAM.Config)); err != nil {
 		log.Printf("[WARN] failed to set ipam config from API: %s", err)
 	}

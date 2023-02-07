@@ -146,7 +146,8 @@ func resourceDockerNetwork() *schema.Resource {
 			"scope": {
 				Type:        schema.TypeString,
 				Description: "Scope of the network. One of `swarm`, `global`, or `local`.",
-				Computed:    false,
+				Computed:    true,
+				Optional:    true,
 			},
 
 			"config_only": {
@@ -154,13 +155,16 @@ func resourceDockerNetwork() *schema.Resource {
 				Description: "Mark this network as a config network",
 				Computed:    false,
 				Default:     false,
+				Optional:    true,
+				ForceNew:    true,
 			},
 
 			"config_from": {
-				Type:        schema.TypeBool,
+				Type:        schema.TypeString,
 				Description: "Base this network off a config network",
 				Computed:    false,
-				Default:     false,
+				Optional:    true,
+				ForceNew:    true,
 			},
 		},
 		SchemaVersion: 1,

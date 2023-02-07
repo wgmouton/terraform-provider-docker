@@ -5,8 +5,8 @@ PKG_NAME=internal/provider
 GOLANGCI_VERSION = 1.49.0
 
 # Values to install the provider locally for testing purposes
-HOSTNAME=registry.terraform.io
-NAMESPACE=kreuzwerker
+HOSTNAME=github.com
+NAMESPACE=wgmouton
 NAME=docker
 BINARY=terraform-provider-${NAME}
 VERSION=9.9.9
