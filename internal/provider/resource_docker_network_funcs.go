@@ -50,6 +50,18 @@ func resourceDockerNetworkCreate(ctx context.Context, d *schema.ResourceData, me
 	if v, ok := d.GetOk("ipv6"); ok {
 		createOpts.EnableIPv6 = v.(bool)
 	}
+	if v, ok := d.GetOk("scope"); ok {
+		createOpts.Scope = v.(string)
+	}
+	if v, ok := d.GetOk("config_only"); ok {
+		createOpts.ConfigOnly = v.(bool)
+	}
+
+	if v, ok := d.GetOk("config_from"); ok {
+		createOpts.ConfigFrom = &network.ConfigReference{
+			Network: v.(string),
+		}
+	}
 
 	ipamOpts := &network.IPAM{}
 	ipamOptsSet := false
@@ -172,16 +184,16 @@ func resourceDockerNetworkReadRefreshFunc(ctx context.Context,
 		d.Set("ipam_driver", retNetwork.IPAM.Driver)
 		d.Set("ipam_options", retNetwork.IPAM.Options)
 		d.Set("scope", retNetwork.Scope)
-		if retNetwork.Scope == "overlay" {
-			if retNetwork.Options != nil && len(retNetwork.Options) != 0 {
-				d.Set("options", retNetwork.Options)
-			} else {
-				log.Printf("[DEBUG] options: %v not exposed", retNetwork.Options)
-				return networkID, "pending", nil
-			}
-		} else {
-			d.Set("options", retNetwork.Options)
-		}
+		// if retNetwork.Scope == "overlay" {
+		// 	if retNetwork.Options != nil && len(retNetwork.Options) != 0 {
+		// 		d.Set("options", retNetwork.Options)
+		// 	} else {
+		// 		log.Printf("[DEBUG] options: %v not exposed", retNetwork.Options)
+		// 		return networkID, "pending", nil
+		// 	}
+		// } else {
+		// 	d.Set("options", retNetwork.Options)
+		// }
 
 		if err = d.Set("ipam_config", flattenIpamConfigSpec(retNetwork.IPAM.Config)); err != nil {
 			log.Printf("[WARN] failed to set ipam config from API: %s", err)

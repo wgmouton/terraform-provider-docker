@@ -146,7 +146,21 @@ func resourceDockerNetwork() *schema.Resource {
 			"scope": {
 				Type:        schema.TypeString,
 				Description: "Scope of the network. One of `swarm`, `global`, or `local`.",
-				Computed:    true,
+				Computed:    false,
+			},
+
+			"config_only": {
+				Type:        schema.TypeBool,
+				Description: "Mark this network as a config network",
+				Computed:    false,
+				Default:     false,
+			},
+
+			"config_from": {
+				Type:        schema.TypeBool,
+				Description: "Base this network off a config network",
+				Computed:    false,
+				Default:     false,
 			},
 		},
 		SchemaVersion: 1,
